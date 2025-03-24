@@ -5,8 +5,12 @@ abstract class AppStyles {
     fontWeight: FontWeight.w500,
     fontSize: 16,
   );
-  static const TextStyle textBlod20 = TextStyle(
+  static const TextStyle textBlod18 = TextStyle(
     fontWeight: FontWeight.w700,
-    fontSize: 20,
+    fontSize: 18,
+  );
+  static const TextStyle textBold24 = TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
   );
 }
