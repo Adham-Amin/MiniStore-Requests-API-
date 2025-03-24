@@ -7,7 +7,7 @@ class ApiService {
 
   ApiService(this._dio);
 
-  Future<Map<String, dynamic>> get({
+  Future<dynamic> get({
     required String endPoint,
     @required String? token,
   }) async {

@@ -1,14 +1,17 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:mini_store/Core/models/product_model/product_model/product_model.dart';
 import 'package:mini_store/Core/utils/app_colors.dart';
 import 'package:mini_store/Core/utils/app_routers.dart';
 import 'package:mini_store/Core/utils/app_styles.dart';
 
 class CustomCard extends StatelessWidget {
   const CustomCard({
-    super.key,
+    super.key, required this.product,
   });
+
+  final ProductModel product;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -39,7 +42,7 @@ class CustomCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Jacket',
+                      product.title ?? 'N/A',
                       style: AppStyles.textBlod18,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
@@ -48,7 +51,7 @@ class CustomCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          r'$50',
+                          '\$ ${product.price}',
                           style: AppStyles.textMedium16,
                         ),
                         const Icon(
@@ -69,7 +72,7 @@ class CustomCard extends StatelessWidget {
               width: 100,
               height: 100,
               imageUrl:
-                  'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
+                  product.image ?? '',
               errorWidget: (context, url, error) => const Icon(Icons.error),
             ),
           ),

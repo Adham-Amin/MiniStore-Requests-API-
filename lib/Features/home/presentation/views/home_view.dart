@@ -17,7 +17,7 @@ class HomeView extends StatelessWidget {
           IconButton(
             icon: const Icon(Icons.category_outlined),
             onPressed: () {
-              GoRouter.of(context).push(AppRouters.categoryView);
+              GoRouter.of(context).push(AppRouters.categoriesView);
             },
           ),
         ],
