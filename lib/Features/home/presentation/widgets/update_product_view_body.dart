@@ -49,7 +49,14 @@ class _UpdateProductViewBodyState extends State<UpdateProductViewBody> {
     return BlocConsumer<UpdateProductCubit, UpdateProductState>(
       listener: (context, state) {
         if (state is UpdateProductLoaded) {
-          GoRouter.of(context).pop(state.product);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.green,
+              content: Text(
+                  'Product updated successfully! => ${state.product.id} -- ${state.product.title} -- ${state.product.price}'),
+            ),
+          );
+          GoRouter.of(context).pop();
         } else if (state is UpdateProductFailure) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
