@@ -23,13 +23,9 @@ class MiniStore extends StatelessWidget {
           ),
         ),
       )..getAllProducts(),
-      child: Builder(
-        builder: (context) {
-          return MaterialApp.router(
-            debugShowCheckedModeBanner: false,
-            routerConfig: AppRouters.router,
-          );
-        }
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        routerConfig: AppRouters.router,
       ),
     );
   }

@@ -1,82 +1,71 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
+import 'package:mini_store/Core/error/failure.dart';
 
 class ApiService {
   final Dio _dio;
-  final String baseUrl = 'https://fakestoreapi.com';
+  static const String baseUrl = 'https://fakestoreapi.com';
 
-  ApiService(this._dio);
+  ApiService(this._dio) {
+    _dio.options = BaseOptions(
+      baseUrl: baseUrl,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+      },
+    );
+  }
+
+  Options _buildOptions(String? token) {
+    return Options(
+      headers: {
+        if (token != null) 'Authorization': 'Bearer $token',
+      },
+    );
+  }
 
   Future<dynamic> get({
     required String endPoint,
-    @required String? token,
+    String? token,
   }) async {
-    Map<String, dynamic> queryParameters = {};
-
-    if (token != null) {
-      queryParameters.addAll(
-        {
-          'Authorization': 'Bearer $token',
-        },
-      );
+    try {
+      final response = await _dio.get(endPoint, options: _buildOptions(token));
+      return response.data;
+    } catch (e) {
+      throw _handleDioError(e);
     }
-
-    final Response response = await _dio.get(
-      '$baseUrl$endPoint',
-      queryParameters: queryParameters,
-    );
-    return response.data;
   }
 
   Future<Map<String, dynamic>> post({
     required String endPoint,
-    @required Map<String, dynamic>? body,
-    @required String? token,
+    Map<String, dynamic>? body,
+    String? token,
   }) async {
-    
-    Map<String, dynamic> queryParameters = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-
-    if (token != null) {
-      queryParameters.addAll(
-        {
-          'Authorization': 'Bearer $token',
-        },
-      );
+    try {
+      final response = await _dio.post(endPoint, data: body, options: _buildOptions(token));
+      return response.data;
+    } catch (e) {
+      throw _handleDioError(e);
     }
-    final Response response = await _dio.post('$baseUrl$endPoint',
-        data: body, queryParameters: queryParameters);
-    return response.data;
   }
 
   Future<Map<String, dynamic>> put({
     required String endPoint,
-    @required Map<String, dynamic>? body,
-    @required String? token,
+    Map<String, dynamic>? body,
+    String? token,
   }) async {
-
-    Map<String, dynamic> queryParameters = {
-      'Accept': 'application/json',
-      'Content-Type': 'application/x-www-form-urlencoded',
-    };
-
-    if (token != null) {
-      queryParameters.addAll(
-        {
-          'Authorization': 'Bearer $token',
-          'Accept': 'application/json',
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-      );
+    try {
+      final response = await _dio.put(endPoint, data: body, options: _buildOptions(token));
+      return response.data;
+    } catch (e) {
+      throw _handleDioError(e);
     }
+  }
 
-    final Response response = await _dio.put(
-      '$baseUrl$endPoint',
-      data: body,
-      queryParameters: queryParameters,
-    );
-    return response.data;
+  Failure _handleDioError(dynamic e) {
+    if (e is DioException) {
+      return ServerFailure.fromDioException(e);
+    } else {
+      return ServerFailure(e.toString());
+    }
   }
 }

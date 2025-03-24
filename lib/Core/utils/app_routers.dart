@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:mini_store/Core/models/product_model/product_model/product_model.dart';
 import 'package:mini_store/Features/home/presentation/views/categories_view.dart';
 import 'package:mini_store/Features/home/presentation/views/category_view.dart';
 import 'package:mini_store/Features/home/presentation/views/home_view.dart';
@@ -27,7 +28,9 @@ abstract class AppRouters {
       ),
       GoRoute(
         path: updateProductView,
-        builder: (context, state) => const UpdateProductView(),
+        builder: (context, state) => UpdateProductView(
+          product: state.extra as ProductModel,
+        ),
       )
     ],
   );
